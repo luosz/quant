@@ -66,23 +66,23 @@ def main2(plot, instrument, entry_sma_period, exit_sma_period):
     feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
     
     # Evaluate the strategy with the feed's bars.
-    myStrategy = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
+    strat = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
     
     # Attach a returns analyzers to the strategy.
     returnsAnalyzer = returns.Returns()
-    myStrategy.attachAnalyzer(returnsAnalyzer)
+    strat.attachAnalyzer(returnsAnalyzer)
     
     # Attach the plotter to the strategy.
-    plt = plotter.StrategyPlotter(myStrategy)
+    plt = plotter.StrategyPlotter(strat)
     # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
-    plt.getInstrumentSubplot(instrument).addDataSeries("SMA", myStrategy.getSMA())
-    plt.getInstrumentSubplot(instrument).addDataSeries("exit SMA", myStrategy.get_exit_SMA())
+    plt.getInstrumentSubplot(instrument).addDataSeries("SMA", strat.getSMA())
+    plt.getInstrumentSubplot(instrument).addDataSeries("exit SMA", strat.get_exit_SMA())
     # Plot the simple returns on each bar.
     plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
     
     # Run the strategy.
-    myStrategy.run()
-    myStrategy.info("Final portfolio value: $%.2f" % myStrategy.getResult())
+    strat.run()
+    strat.info("Final portfolio value: $%.2f" % strat.getResult())
     
     # Plot the strategy.
     plt.plot()

@@ -5,7 +5,7 @@ from pyalgotrade.technical import cross
 
 class RSI2(strategy.BacktestingStrategy):
     def __init__(self, feed, instrument, entrySMA, exitSMA, rsiPeriod, overBoughtThreshold, overSoldThreshold):
-        strategy.BacktestingStrategy.__init__(self, feed)
+        strategy.BacktestingStrategy.__init__(self, feed, 10000)
         self.__instrument = instrument
         # We'll use adjusted close values, if available, instead of regular close values.
         if feed.barsHaveAdjClose():

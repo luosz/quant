@@ -6,7 +6,7 @@ from pyalgotrade.stratanalyzer import sharpe
 
 class VWAPMomentum(strategy.BacktestingStrategy):
     def __init__(self, feed, instrument, vwapWindowSize, threshold):
-        strategy.BacktestingStrategy.__init__(self, feed)
+        strategy.BacktestingStrategy.__init__(self, feed, 10000)
         self.__instrument = instrument
         self.__vwap = vwap.VWAP(feed[instrument], vwapWindowSize)
         self.__threshold = threshold
@@ -24,18 +24,18 @@ class VWAPMomentum(strategy.BacktestingStrategy):
         notional = shares * price
 
         if price > vwap * (1 + self.__threshold) and notional < 1000000:
-            self.marketOrder(self.__instrument, 100)
+            self.marketOrder(self.__instrument, 10)
         elif price < vwap * (1 - self.__threshold) and notional > 0:
-            self.marketOrder(self.__instrument, -100)
+            self.marketOrder(self.__instrument, -10)
 
 
 def main(plot):
-    instrument = "aapl"
+    instrument = "IVV"
     vwapWindowSize = 5
     threshold = 0.01
 
     # Download the bars.
-    feed = yahoofinance.build_feed([instrument], 2011, 2012, ".")
+    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
 
     strat = VWAPMomentum(feed, instrument, vwapWindowSize, threshold)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
@@ -46,6 +46,7 @@ def main(plot):
         plt.getInstrumentSubplot(instrument).addDataSeries("vwap", strat.getVWAP())
 
     strat.run()
+    strat.info("Final portfolio value: $%.2f" % strat.getResult())
     print "Sharpe ratio: %.2f" % sharpeRatioAnalyzer.getSharpeRatio(0.05)
 
     if plot:

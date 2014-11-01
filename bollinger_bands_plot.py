@@ -29,11 +29,11 @@ class BBands(strategy.BacktestingStrategy):
 
 
 def main(plot):
-    instrument = "yhoo"
+    instrument = "ivv"
     bBandsPeriod = 40
 
     # Download the bars.
-    feed = yahoofinance.build_feed([instrument], 2011, 2012, ".")
+    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
 
     strat = BBands(feed, instrument, bBandsPeriod)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
