@@ -64,6 +64,7 @@ def main2(plot):
     instrument = "ivv"
     smaPeriod = 20
     
+    # Download the bars.
     feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
     
     # Evaluate the strategy with the feed's bars.
