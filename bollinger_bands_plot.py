@@ -6,7 +6,7 @@ from pyalgotrade.stratanalyzer import sharpe
 
 class BBands(strategy.BacktestingStrategy):
     def __init__(self, feed, instrument, bBandsPeriod):
-        strategy.BacktestingStrategy.__init__(self, feed)
+        strategy.BacktestingStrategy.__init__(self, feed, 10000)
         self.__instrument = instrument
         self.__bbands = bollinger.BollingerBands(feed[instrument].getCloseDataSeries(), bBandsPeriod, 2)
 
@@ -46,6 +46,7 @@ def main(plot):
         plt.getInstrumentSubplot(instrument).addDataSeries("lower", strat.getBollingerBands().getLowerBand())
 
     strat.run()
+    strat.info("Final portfolio value: $%.2f" % strat.getResult())
     print "Sharpe ratio: %.2f" % sharpeRatioAnalyzer.getSharpeRatio(0.05)
 
     if plot:

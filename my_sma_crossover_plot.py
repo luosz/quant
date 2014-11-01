@@ -5,18 +5,22 @@ from pyalgotrade import plotter
 from pyalgotrade.tools import yahoofinance
 from pyalgotrade.stratanalyzer import sharpe, returns
 
-class SMACrossOver(strategy.BacktestingStrategy):
-    def __init__(self, feed, instrument, smaPeriod):
-        strategy.BacktestingStrategy.__init__(self, feed)
+class SMACrossOver2(strategy.BacktestingStrategy):
+    def __init__(self, feed, instrument, smaPeriod, exit_sma_period):
+        strategy.BacktestingStrategy.__init__(self, feed, 10000)
         self.__instrument = instrument
         self.__position = None
         # We'll use adjusted close values instead of regular close values.
         self.setUseAdjustedValues(True)
         self.__prices = feed[instrument].getPriceDataSeries()
         self.__sma = ma.SMA(self.__prices, smaPeriod)
+        self.__exit_sma = ma.SMA(self.__prices, exit_sma_period)
 
     def getSMA(self):
         return self.__sma
+    
+    def get_exit_SMA(self):
+        return self.__exit_sma
 
     def onEnterCanceled(self, position):
         self.__position = None
@@ -36,17 +40,14 @@ class SMACrossOver(strategy.BacktestingStrategy):
                 # Enter a buy market order. The order is good till canceled.
                 self.__position = self.enterLong(self.__instrument, shares, True)
         # Check if we have to exit the position.
-        elif not self.__position.exitActive() and cross.cross_below(self.__prices, self.__sma) > 0:
+        elif not self.__position.exitActive() and cross.cross_below(self.__prices, self.__exit_sma) > 0:
             self.__position.exitMarket()
 
-def main(plot):
-    instrument = "ivv"
-    smaPeriod = 20
-
+def main(plot, instrument, entry_sma_period, exit_sma_period):
     # Download the bars.
     feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
-
-    strat = SMACrossOver(feed, instrument, smaPeriod)
+    
+    strat = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
     strat.attachAnalyzer(sharpeRatioAnalyzer)
 
@@ -60,15 +61,12 @@ def main(plot):
     if plot:
         plt.plot()
 
-def main2(plot):
-    instrument = "ivv"
-    smaPeriod = 20
-    
+def main2(plot, instrument, entry_sma_period, exit_sma_period):
     # Download the bars.
     feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
     
     # Evaluate the strategy with the feed's bars.
-    myStrategy = SMACrossOver(feed, instrument, smaPeriod)
+    myStrategy = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
     
     # Attach a returns analyzers to the strategy.
     returnsAnalyzer = returns.Returns()
@@ -78,6 +76,7 @@ def main2(plot):
     plt = plotter.StrategyPlotter(myStrategy)
     # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
     plt.getInstrumentSubplot(instrument).addDataSeries("SMA", myStrategy.getSMA())
+    plt.getInstrumentSubplot(instrument).addDataSeries("exit SMA", myStrategy.get_exit_SMA())
     # Plot the simple returns on each bar.
     plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
     
@@ -86,8 +85,11 @@ def main2(plot):
     myStrategy.info("Final portfolio value: $%.2f" % myStrategy.getResult())
     
     # Plot the strategy.
-    plt.plot()    
+    plt.plot()
 
 if __name__ == "__main__":
-    main(True)
-    main2(True)
+    instrument = "ivv"
+    entry_sma_period = 20
+    exit_sma_period = 10
+    main(True, instrument, entry_sma_period, exit_sma_period)
+    main2(True, instrument, entry_sma_period, exit_sma_period)
