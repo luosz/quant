@@ -3,7 +3,7 @@ from pyalgotrade.technical import ma
 from pyalgotrade.technical import cross
 from pyalgotrade import plotter
 from pyalgotrade.tools import yahoofinance
-from pyalgotrade.stratanalyzer import sharpe
+from pyalgotrade.stratanalyzer import sharpe, returns
 
 class SMACrossOver(strategy.BacktestingStrategy):
     def __init__(self, feed, instrument, smaPeriod):
@@ -40,11 +40,11 @@ class SMACrossOver(strategy.BacktestingStrategy):
             self.__position.exitMarket()
 
 def main(plot):
-    instrument = "aapl"
-    smaPeriod = 163
+    instrument = "ivv"
+    smaPeriod = 20
 
     # Download the bars.
-    feed = yahoofinance.build_feed([instrument], 2011, 2012, ".")
+    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
 
     strat = SMACrossOver(feed, instrument, smaPeriod)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
@@ -60,6 +60,33 @@ def main(plot):
     if plot:
         plt.plot()
 
+def main2(plot):
+    instrument = "ivv"
+    smaPeriod = 20
+    
+    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
+    
+    # Evaluate the strategy with the feed's bars.
+    myStrategy = SMACrossOver(feed, instrument, smaPeriod)
+    
+    # Attach a returns analyzers to the strategy.
+    returnsAnalyzer = returns.Returns()
+    myStrategy.attachAnalyzer(returnsAnalyzer)
+    
+    # Attach the plotter to the strategy.
+    plt = plotter.StrategyPlotter(myStrategy)
+    # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
+    plt.getInstrumentSubplot("orcl").addDataSeries("SMA", myStrategy.getSMA())
+    # Plot the simple returns on each bar.
+    plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
+    
+    # Run the strategy.
+    myStrategy.run()
+    myStrategy.info("Final portfolio value: $%.2f" % myStrategy.getResult())
+    
+    # Plot the strategy.
+    plt.plot()    
 
 if __name__ == "__main__":
     main(True)
+    main2(True)
