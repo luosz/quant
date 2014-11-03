@@ -45,7 +45,7 @@ class SMACrossOver2(strategy.BacktestingStrategy):
 
 def main(plot, instrument, entry_sma_period, exit_sma_period):
     # Download the bars.
-    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
+    feed = yahoofinance.build_feed([instrument], 2014, 2014, ".")
     
     strat = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
@@ -63,7 +63,7 @@ def main(plot, instrument, entry_sma_period, exit_sma_period):
 
 def main2(plot, instrument, entry_sma_period, exit_sma_period):
     # Download the bars.
-    feed = yahoofinance.build_feed([instrument], 2013, 2014, ".")
+    feed = yahoofinance.build_feed([instrument], 2014, 2014, ".")
     
     # Evaluate the strategy with the feed's bars.
     strat = SMACrossOver2(feed, instrument, entry_sma_period, exit_sma_period)
