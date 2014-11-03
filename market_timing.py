@@ -125,7 +125,6 @@ class MarketTiming(strategy.BacktestingStrategy):
 
         self._placePendingOrders()
 
-
 def main(plot):
     initialCash = 10000
     instrumentsByClass = {
@@ -137,10 +136,10 @@ def main(plot):
     }
 
     # Download the bars.
-    instruments = ["IVV"]
+    instruments = ["SPY"]
     for assetClass in instrumentsByClass:
         instruments.extend(instrumentsByClass[assetClass])
-    feed = yahoofinance.build_feed(instruments, 2013, 2014, "data", skipErrors=True)
+    feed = yahoofinance.build_feed(instruments, 2007, 2013, "data", skipErrors=True)
 
     strat = MarketTiming(feed, instrumentsByClass, initialCash)
     sharpeRatioAnalyzer = sharpe.SharpeRatio()
@@ -151,18 +150,16 @@ def main(plot):
     if plot:
         plt = plotter.StrategyPlotter(strat, False, False, True)
         plt.getOrCreateSubplot("cash").addCallback("Cash", lambda x: strat.getBroker().getCash())
-        # Plot strategy vs. IVV cumulative returns.
-        plt.getOrCreateSubplot("returns").addDataSeries("IVV", cumret.CumulativeReturn(feed["IVV"].getPriceDataSeries()))
+        # Plot strategy vs. SPY cumulative returns.
+        plt.getOrCreateSubplot("returns").addDataSeries("SPY", cumret.CumulativeReturn(feed["SPY"].getPriceDataSeries()))
         plt.getOrCreateSubplot("returns").addDataSeries("Strategy", returnsAnalyzer.getCumulativeReturns())
 
     strat.run()
-    strat.info("Final portfolio value: $%.2f" % strat.getResult())
     print "Sharpe ratio: %.2f" % sharpeRatioAnalyzer.getSharpeRatio(0.05)
     print "Returns: %.2f %%" % (returnsAnalyzer.getCumulativeReturns()[-1] * 100)
 
     if plot:
         plt.plot()
-
 
 if __name__ == "__main__":
     main(True)
