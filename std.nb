@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      7129,        228]
-NotebookOptionsPosition[      6445,        199]
-NotebookOutlinePosition[      6791,        214]
-CellTagsIndexPosition[      6748,        211]
+NotebookDataLength[      7234,        229]
+NotebookOptionsPosition[      6550,        200]
+NotebookOutlinePosition[      6896,        215]
+CellTagsIndexPosition[      6853,        212]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -81,8 +81,7 @@ Cell[BoxData[
        RowBox[{"{", 
         RowBox[{"d", ",", 
          RowBox[{"d", "/", "a"}], ",", 
-         RowBox[{"num", "*", "a"}]}], "}"}], ",", 
-       RowBox[{"IntegerPart", "[", "num", "]"}], ",", "a", ",", 
+         RowBox[{"num", "*", "a"}]}], "}"}], ",", "num", ",", "a", ",", 
        RowBox[{"{", 
         RowBox[{
          RowBox[{"a", "-", "d"}], ",", 
@@ -95,7 +94,8 @@ Cell[BoxData[
   3.635193121704514*^9}, {3.6351931574363513`*^9, 3.635193294225605*^9}, {
   3.635193346973794*^9, 3.6351934135667596`*^9}, {3.635193510943722*^9, 
   3.6351935299994335`*^9}, {3.635193596050497*^9, 3.635193624217288*^9}, {
-  3.635193654673604*^9, 3.6351936860405307`*^9}}],
+  3.635193654673604*^9, 3.6351936860405307`*^9}, {3.6351968424721823`*^9, 
+  3.6351968429253316`*^9}}],
 
 Cell[CellGroupData[{
 
@@ -120,7 +120,7 @@ Cell[BoxData[
     RowBox[{
     "112.51`", ",", "110.12`", ",", "118.52`", ",", "120.8`", ",", 
      "128.31`"}], "}"}]}], "}"}]], "Output",
- CellChangeTimes->{3.635196315683715*^9}]
+ CellChangeTimes->{3.635196315683715*^9, 3.6351968497850337`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -147,7 +147,7 @@ Cell[BoxData[
     RowBox[{
     "99.1`", ",", "96.97`", ",", "94.02`", ",", "96.47`", ",", "103.15`"}], 
     "}"}]}], "}"}]], "Output",
- CellChangeTimes->{3.635196317949459*^9}]
+ CellChangeTimes->{3.635196317949459*^9, 3.6351968509257183`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -174,7 +174,7 @@ Cell[BoxData[
     RowBox[{
     "75.37`", ",", "77.19`", ",", "77.01`", ",", "77.12`", ",", "81.2`"}], 
     "}"}]}], "}"}]], "Output",
- CellChangeTimes->{3.6351963206058426`*^9}]
+ CellChangeTimes->{3.6351963206058426`*^9, 3.635196851832014*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -184,17 +184,18 @@ Cell[BoxData["Now"], "Input",
 
 Cell[BoxData[
  TemplateBox[{
-  RowBox[{"\"Fri 13 Mar 2015 00:45:44\""}],RowBox[{"DateObject", "[", 
+  RowBox[{"\"Fri 13 Mar 2015 00:54:11\""}],RowBox[{"DateObject", "[", 
      RowBox[{
        RowBox[{"{", 
          RowBox[{"2015", ",", "3", ",", "13"}], "}"}], ",", 
        RowBox[{"TimeObject", "[", 
          RowBox[{"{", 
-           RowBox[{"0", ",", "45", ",", "44.6227118`"}], "}"}], "]"}]}], 
+           RowBox[{"0", ",", "54", ",", "11.8320144`"}], "}"}], "]"}]}], 
      "]"}]},
   "DateObject",
   Editable->False]], "Output",
- CellChangeTimes->{3.6351943736472516`*^9, 3.635196344622712*^9}]
+ CellChangeTimes->{3.6351943736472516`*^9, 3.635196344622712*^9, 
+  3.635196851847638*^9}]
 }, Open  ]]
 },
 WindowSize->{1288, 714},
@@ -213,22 +214,22 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 3016, 77, 192, "Input"],
+Cell[558, 20, 3026, 77, 192, "Input"],
 Cell[CellGroupData[{
-Cell[3599, 101, 67, 1, 31, "Input"],
-Cell[3669, 104, 649, 18, 31, "Output"]
+Cell[3609, 101, 67, 1, 31, "Input"],
+Cell[3679, 104, 673, 18, 31, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4355, 127, 67, 1, 31, "Input"],
-Cell[4425, 130, 653, 19, 31, "Output"]
+Cell[4389, 127, 67, 1, 31, "Input"],
+Cell[4459, 130, 677, 19, 31, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5115, 154, 66, 1, 31, "Input"],
-Cell[5184, 157, 655, 19, 31, "Output"]
+Cell[5173, 154, 66, 1, 31, "Input"],
+Cell[5242, 157, 677, 19, 31, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5876, 181, 97, 1, 31, "Input"],
-Cell[5976, 184, 453, 12, 41, "Output"]
+Cell[5956, 181, 97, 1, 31, "Input"],
+Cell[6056, 184, 478, 13, 41, "Output"]
 }, Open  ]]
 }
 ]
