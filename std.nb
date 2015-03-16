@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      6823,        174]
-NotebookOptionsPosition[      6579,        161]
-NotebookOutlinePosition[      6924,        176]
-CellTagsIndexPosition[      6881,        173]
+NotebookDataLength[      6353,        184]
+NotebookOptionsPosition[      6108,        171]
+NotebookOutlinePosition[      6454,        186]
+CellTagsIndexPosition[      6411,        183]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -23,35 +23,63 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"std", "[", 
     RowBox[{"symbol_", ",", 
-     RowBox[{"bet_:", "70"}], ",", 
-     RowBox[{"days_:", "7"}]}], "]"}], ":=", 
+     RowBox[{"off_:", "0"}], ",", 
+     RowBox[{"days_:", "7"}], ",", 
+     RowBox[{"bet_:", "70"}]}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", 
-      RowBox[{"a", ",", "t", ",", "l", ",", "n", ",", "d", ",", "num"}], 
-      "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+      "ohlcv", ",", "p", ",", "p2", ",", "t", ",", "l", ",", "n", ",", "d", 
+       ",", "num"}], "}"}], ",", "\[IndentingNewLine]", 
      RowBox[{
-      RowBox[{"a", "=", 
+      RowBox[{"ohlcv", "=", 
+       RowBox[{"Flatten", "@", 
+        RowBox[{"Last", "@", 
+         RowBox[{"Transpose", "@", 
+          RowBox[{"FinancialData", "[", 
+           RowBox[{"symbol", ",", "\"\<OHLCV\>\"", ",", 
+            RowBox[{"{", 
+             RowBox[{"DateList", "@", 
+              RowBox[{"DayRound", "[", 
+               RowBox[{
+                RowBox[{"Today", "-", 
+                 RowBox[{"Quantity", "[", 
+                  RowBox[{"off", ",", "\"\<Days\>\""}], "]"}]}], ",", 
+                "\"\<BusinessDay\>\"", ",", "\"\<Previous\>\""}], "]"}]}], 
+             "}"}]}], "]"}]}]}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"p", "=", 
        RowBox[{"Mean", "[", 
-        RowBox[{"FinancialData", "[", 
-         RowBox[{"symbol", ",", "\"\<Range\>\""}], "]"}], "]"}]}], ";", 
+        RowBox[{"ohlcv", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ";;", "3"}], "]"}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"p2", "=", 
+       RowBox[{"Mean", "[", 
+        RowBox[{"ohlcv", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ";;", "4"}], "]"}], "]"}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"t", "=", 
        RowBox[{
         RowBox[{"{", 
          RowBox[{
-          RowBox[{"DateList", "[", 
+          RowBox[{"DateList", "@", 
            RowBox[{"DayRound", "[", 
             RowBox[{
              RowBox[{"Today", "-", 
               RowBox[{"Quantity", "[", 
-               RowBox[{"days", ",", "\"\<Days\>\""}], "]"}]}], ",", 
-             "\"\<BusinessDay\>\"", ",", "\"\<Next\>\""}], "]"}], "]"}], ",", 
-          RowBox[{"DateList", "[", 
+               RowBox[{
+                RowBox[{"days", "+", "off"}], ",", "\"\<Days\>\""}], "]"}]}], 
+             ",", "\"\<BusinessDay\>\"", ",", "\"\<Next\>\""}], "]"}]}], ",", 
+          RowBox[{"DateList", "@", 
            RowBox[{"DayRound", "[", 
             RowBox[{
-            "Today", ",", "\"\<BusinessDay\>\"", ",", "\"\<Previous\>\""}], 
-            "]"}], "]"}]}], "}"}], "//", 
+             RowBox[{"Today", "-", 
+              RowBox[{"Quantity", "[", 
+               RowBox[{"off", ",", "\"\<Days\>\""}], "]"}]}], ",", 
+             "\"\<BusinessDay\>\"", ",", "\"\<Previous\>\""}], "]"}]}]}], 
+         "}"}], "//", 
         RowBox[{
          RowBox[{
           RowBox[{
@@ -78,89 +106,71 @@ Cell[BoxData[{
        RowBox[{"IntegerPart", "[", 
         RowBox[{"bet", "/", "d"}], "]"}]}], ";", "\[IndentingNewLine]", 
       RowBox[{"{", 
-       RowBox[{
-        RowBox[{"{", 
-         RowBox[{"d", ",", 
-          RowBox[{"d", "/", "a"}], ",", 
-          RowBox[{"num", "*", "a"}]}], "}"}], ",", 
+       RowBox[{"d", ",", 
+        RowBox[{"d", "/", "p"}], ",", 
+        RowBox[{"num", "*", "p"}], ",", 
         RowBox[{"Style", "[", 
-         RowBox[{"num", ",", "Bold", ",", "Larger", ",", 
+         RowBox[{
+          RowBox[{"{", "num", "}"}], ",", "Bold", ",", "Larger", ",", 
+          RowBox[{"Background", "\[Rule]", "LightYellow"}]}], "]"}], ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"p", ",", 
+            RowBox[{"p", "-", "d"}], ",", 
+            RowBox[{"p", "+", "d"}]}], "}"}], ",", "Bold", ",", "Larger", ",", 
           RowBox[{"Background", "->", "LightBlue"}]}], "]"}], ",", 
         RowBox[{"Style", "[", 
          RowBox[{
           RowBox[{"{", 
-           RowBox[{"a", ",", 
-            RowBox[{"a", "-", "d"}], ",", 
-            RowBox[{"a", "+", "d"}]}], "}"}], ",", "Bold", ",", "Larger", ",", 
-          RowBox[{"Background", "->", "LightBlue"}]}], "]"}], ",", "t", ",", 
-        "l"}], "}"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+           RowBox[{"p2", ",", 
+            RowBox[{"p2", "-", "d"}], ",", 
+            RowBox[{"p2", "+", "d"}]}], "}"}], ",", "Bold", ",", "Larger", 
+          ",", 
+          RowBox[{"Background", "\[Rule]", "LightRed"}]}], "]"}], ",", 
+        "ohlcv", ",", "t", ",", "l"}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"chart", "[", 
     RowBox[{"symbol_", ",", 
+     RowBox[{"off_:", "0"}], ",", 
      RowBox[{"days_:", "28"}]}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", "t", "}"}], ",", "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"t", "=", 
-       RowBox[{
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"DateList", "[", 
-           RowBox[{"DayRound", "[", 
-            RowBox[{
-             RowBox[{"Today", "-", 
-              RowBox[{"Quantity", "[", 
-               RowBox[{"days", ",", "\"\<Days\>\""}], "]"}]}], ",", 
-             "\"\<BusinessDay\>\"", ",", "\"\<Next\>\""}], "]"}], "]"}], ",", 
-          RowBox[{"DateList", "[", 
-           RowBox[{"DayRound", "[", 
-            RowBox[{
-            "Today", ",", "\"\<BusinessDay\>\"", ",", "\"\<Previous\>\""}], 
-            "]"}], "]"}]}], "}"}], "//", 
+       RowBox[{"{", 
         RowBox[{
-         RowBox[{
-          RowBox[{
-           RowBox[{"Take", "[", 
-            RowBox[{"#", ",", "3"}], "]"}], "&"}], "/@", "#"}], "&"}]}]}], 
-      ";", "\[IndentingNewLine]", 
-      RowBox[{"InteractiveTradingChart", "[", 
+         RowBox[{"DateList", "@", 
+          RowBox[{"DayRound", "[", 
+           RowBox[{
+            RowBox[{"Today", "-", 
+             RowBox[{"Quantity", "[", 
+              RowBox[{
+               RowBox[{"days", "+", "off"}], ",", "\"\<Days\>\""}], "]"}]}], 
+            ",", "\"\<BusinessDay\>\"", ",", "\"\<Next\>\""}], "]"}]}], ",", 
+         RowBox[{"DateList", "@", 
+          RowBox[{"DayRound", "[", 
+           RowBox[{
+            RowBox[{"Today", "-", 
+             RowBox[{"Quantity", "[", 
+              RowBox[{"off", ",", "\"\<Days\>\""}], "]"}]}], ",", 
+            "\"\<BusinessDay\>\"", ",", "\"\<Previous\>\""}], "]"}]}]}], 
+        "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"TradingChart", "[", 
        RowBox[{
         RowBox[{"{", 
          RowBox[{"symbol", ",", "t"}], "}"}], ",", 
         RowBox[{"{", 
-         RowBox[{"\"\<Volume\>\"", ",", "\"\<Aroon\>\""}], "}"}]}], "]"}]}]}],
-     "]"}]}], ";"}]}], "Input",
- CellChangeTimes->{{3.6351910479871106`*^9, 3.635191051551489*^9}, {
-   3.6351923157958813`*^9, 3.6351923164453144`*^9}, {3.6351924217895927`*^9, 
-   3.6351924219967303`*^9}, {3.635192480515769*^9, 3.63519251844307*^9}, {
-   3.635192563116872*^9, 3.6351925639214087`*^9}, {3.6351928683635073`*^9, 
-   3.635193121704514*^9}, {3.6351931574363513`*^9, 3.635193294225605*^9}, {
-   3.635193346973794*^9, 3.6351934135667596`*^9}, {3.635193510943722*^9, 
-   3.6351935299994335`*^9}, {3.635193596050497*^9, 3.635193624217288*^9}, {
-   3.635193654673604*^9, 3.6351936860405307`*^9}, {3.6351968424721823`*^9, 
-   3.6351968429253316`*^9}, {3.6352705609432545`*^9, 3.635270564844858*^9}, {
-   3.6352713435946636`*^9, 3.6352715181319895`*^9}, {3.635271678931777*^9, 
-   3.635271785158407*^9}, {3.6352722346476727`*^9, 3.635272235319565*^9}, {
-   3.635272341491054*^9, 3.6352723617208056`*^9}, {3.63527245329769*^9, 
-   3.63527246411075*^9}, {3.635272812404437*^9, 3.6352728480782356`*^9}, {
-   3.6352729429726343`*^9, 3.635272976114745*^9}, {3.63527306780286*^9, 
-   3.6352730692716727`*^9}, {3.6352731016952333`*^9, 3.635273104492244*^9}, {
-   3.635273194831222*^9, 3.635273268913724*^9}, {3.635273309040798*^9, 
-   3.6352733777162156`*^9}, {3.6352735190819273`*^9, 
-   3.6352735383016973`*^9}, {3.6353638602113056`*^9, 3.6353638619926243`*^9}, 
-   3.635363934418285*^9, 3.635363968888832*^9, {3.6353657081744967`*^9, 
-   3.6353657301131535`*^9}, {3.6353657784125533`*^9, 3.635365802866957*^9}, 
-   3.635366026303952*^9, {3.6353660823013325`*^9, 3.63536608710354*^9}, {
-   3.6353662008224535`*^9, 3.635366216110658*^9}, {3.6353663480317726`*^9, 
-   3.635366353000815*^9}, {3.6353665662410355`*^9, 3.635366567929164*^9}, 
-   3.635366601967886*^9, {3.6353691642087297`*^9, 3.6353691644358807`*^9}, {
-   3.6354235684558644`*^9, 3.6354235953635187`*^9}, {3.6354237625441437`*^9, 
-   3.6354237774198956`*^9}}]
+         RowBox[{
+         "\"\<Volume\>\"", ",", "\"\<Aroon\>\"", ",", 
+          "\"\<MoneyFlowIndex\>\""}], "}"}]}], "]"}]}]}], "]"}]}], 
+  ";"}]}], "Input"]
 },
-WindowSize->{1288, 696},
-WindowMargins->{{-9, Automatic}, {Automatic, 0}},
+WindowSize->{1288, 714},
+WindowMargins->{{-9, Automatic}, {Automatic, -9}},
 FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (December 4, 2014)",
 StyleDefinitions->"Default.nb"
 ]
@@ -175,7 +185,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 6017, 139, 272, "Input"]
+Cell[558, 20, 5546, 149, 332, "Input"]
 }
 ]
 *)
